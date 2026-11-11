@@ -319,7 +319,7 @@ Los MB son de 2^20 bytes.
 La latencia nodo → servidor es válida porque los dos programas corren en el mismo portátil y comparten reloj. Si el servidor se mueve a otro equipo, hay que sincronizar ambos relojes por NTP.
 
 **Validación** (N = 100):
-- C = (1 − Σ_k |n_k^E − n_k^S| / N) × 100, donde E es la experta y S el sistema (los conteos por mediana).
+- C = (1 − Σ_k |n_k^E − n_k^S| / N) × 100, donde E es la experta y S el sistema (los conteos por mediana). C no tiene piso en 0: es negativa cuando la suma de las diferencias supera N (por ejemplo, si el sistema confunde muchas mitades de clase).
 - Tasa de detección = detecciones del sistema / N × 100.
 - Diferencia por clase = sistema − experta.
 - Por posición:
