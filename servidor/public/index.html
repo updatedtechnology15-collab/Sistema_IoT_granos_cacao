@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ensayo de corte de cacao</title>
+  <link rel="stylesheet" href="estilos.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27%3E%3Cellipse cx=%278%27 cy=%278%27 rx=%275%27 ry=%277%27 fill=%27%23eb6834%27/%3E%3C/svg%3E">
+  <!-- Librerías servidas desde node_modules (versiones fijadas en package-lock.json) -->
+  <script src="/vendor/chart.umd.min.js"></script>
+  <script src="/vendor/mqtt.min.js"></script>
+  <script type="module" src="js/app.js"></script>
+</head>
+<body>
+  <header class="cabecera">
+    <div class="marca">
+      <h1>Ensayo de corte de cacao</h1>
+      <span class="sub" id="estacion">NTE INEN 176 · CCN-51</span>
+    </div>
+    <nav class="pestanas" aria-label="Secciones">
+      <a href="#/vivo" data-pagina="vivo">En vivo</a>
+      <a href="#/lotes" data-pagina="lotes">Lotes</a>
+      <a href="#/inspeccion" data-pagina="inspeccion">Inspección</a>
+      <a href="#/validacion" data-pagina="validacion">Validación</a>
+    </nav>
+    <div class="estados" aria-live="polite">
+      <span class="pildora" id="estado-nodo"><span class="punto"></span><span class="texto">Nodo: sin datos</span></span>
+      <span class="pildora" id="estado-broker"><span class="punto"></span><span class="texto">Broker: conectando…</span></span>
+    </div>
+  </header>
+  <main id="contenido" tabindex="-1"></main>
+</body>
+</html>

@@ -1,0 +1,30 @@
+# --- Secretos (nunca se versionan) ---
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+
+# --- Resultados generados por el nodo, el benchmark y la evaluación ---
+resultados/
+
+# --- Pesos de los modelos (archivos grandes, se distribuyen aparte) ---
+models/*
+!models/.gitkeep
+
+# --- Videos de prueba (archivos grandes, se distribuyen aparte) ---
+videos/
+
+# --- Código del sistema anterior (solo como referencia local) ---
+referencia_anterior/
+
+# --- Dependencias y cachés ---
+node_modules/
+__pycache__/
+*.pyc
+.venv/
+venv/
+runs/

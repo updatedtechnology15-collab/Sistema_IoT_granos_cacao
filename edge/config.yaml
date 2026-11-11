@@ -1,0 +1,63 @@
+# =====================================================================
+# Configuración del nodo de borde y del benchmark.
+# Aquí van todos los parámetros; los secretos van en .env (nunca aquí).
+# Las rutas relativas se resuelven desde la raíz del proyecto.
+# Archivo plano (una clave por línea) para que el servidor pueda leer
+# estacion_id sin dependencias adicionales.
+# =====================================================================
+
+# --- Identificación ---
+# Los tópicos MQTT son cacao/<estacion_id>/...
+estacion_id: est01
+
+# --- Modelo e inferencia ---
+# Modelos disponibles: models/yolo26n.pt, models/yolo26s.pt, models/yolo26m.pt
+modelo: models/yolo26s.pt
+# auto: usa CUDA si está disponible; si no, solo la CPU. Otras opciones: cpu, cuda
+dispositivo: auto
+imgsz: 640
+conf: 0.45
+# YOLO26 detecta de extremo a extremo, sin NMS. No se aplica un NMS adicional.
+# false: se pide a Ultralytics la cabeza de extremo a extremo (nms=False). Si el
+#        modelo no la tiene (p. ej. YOLO11), Ultralytics aplica su NMS por clase.
+# true:  NMS agnóstico a la clase.
+# El modo de inferencia efectivo se registra en cada inspección (modo_inferencia).
+agnostic_nms: false
+
+# --- Fuente de video ---
+# Ruta de un archivo de video, índice de cámara (0, 1, ...) o URL (rtsp://, http://)
+fuente: videos/Prueba_1_Cacao.mp4
+# fps que se suponen si la fuente no informa los suyos
+fps_fuente_defecto: 30
+
+# --- Ventana de inspección ---
+# Se procesa 1 de cada round(fps_fuente / fps_operacion) cuadros;
+# en los cuadros que se saltan se usa cap.grab().
+fps_operacion: 5
+# Archivo de video: tiempo del video (índice de cuadro / fps). Cámara: tiempo de reloj.
+ventana_s: 30
+# Cuadros iniciales que se descartan de las estadísticas de latencia
+cuadros_calentamiento: 20
+
+# --- Filtro de área (fracción del área del cuadro) ---
+# Se descartan las cajas cuya área queda fuera de [area_min_frac, area_max_frac].
+area_min_frac: 0.0012
+area_max_frac: 0.12
+
+# --- Cuadro en vivo (tópico cacao/<estacion_id>/cuadro) ---
+fps_cuadro_vivo: 1
+calidad_jpeg_vivo: 60
+# Lado mayor máximo, en píxeles, del cuadro que se publica
+lado_max_vivo: 960
+
+# --- Cuadro representativo (se guarda en MongoDB) ---
+calidad_jpeg_representativo: 85
+
+# --- MQTT ---
+# Intervalo de keepalive; el broker publica la última voluntad ("desconectado")
+# si no recibe nada del nodo durante 1,5 veces este intervalo.
+mqtt_keepalive_s: 30
+
+# --- Copia local ---
+# Cada inspección escribe sus CSV en <carpeta_resultados>/<inspeccion_id>/
+carpeta_resultados: resultados

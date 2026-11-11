@@ -1,0 +1,13 @@
+train: ../train/images
+val: ../valid/images
+test: ../test/images
+
+nc: 4
+names: ['Fermentado', 'Mohoso', 'Pizarroso', 'Violeta']
+
+roboflow:
+  workspace: tfm-unir-ensayo-de-corte-cacao
+  project: cacao-cnn-v1-1-final
+  version: 4
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/tfm-unir-ensayo-de-corte-cacao/cacao-cnn-v1-1-final/dataset/4
