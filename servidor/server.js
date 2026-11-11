@@ -11,6 +11,8 @@ import { encabezadosSeguridad, escuchaSoloLocal, verificarHost } from './segurid
 import rutasLotes from './rutas/lotes.js';
 import rutasInspecciones from './rutas/inspecciones.js';
 import rutasConfig from './rutas/config.js';
+import rutasValidaciones from './rutas/validaciones.js';
+import rutasExportar from './rutas/exportar.js';
 
 mongoose.set('sanitizeFilter', true); // impide inyectar operadores ($gt, $ne...) en las consultas
 
@@ -43,6 +45,8 @@ async function main() {
   app.use('/api/lotes', rutasLotes);
   app.use('/api/inspecciones', rutasInspecciones);
   app.use('/api/config', rutasConfig);
+  app.use('/api/validaciones', rutasValidaciones);
+  app.use('/api/export', rutasExportar);
   app.use('/api', (_req, res) => res.status(404).json({ error: 'Ruta no encontrada' }));
   // Tablero: archivos estáticos, librerías del navegador desde node_modules
   // (versiones fijadas en package-lock.json) y conteos de la experta precargados.

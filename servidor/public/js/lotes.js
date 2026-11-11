@@ -1,6 +1,14 @@
 // Página «Lotes»: crear lotes y ver el historial de inspecciones de cada lote.
 import { CLASES, NOMBRES, api, el, num, fecha, mensaje, tabla } from './util.js';
 
+/** Enlaces de descarga de los tres CSV de la API, con un filtro opcional (?lote_id=). */
+function enlacesCsv(consulta = '', sufijo = '') {
+  const enlace = (archivo, texto) => el('a', { class: 'boton secundario', href: `/api/export/${archivo}${consulta}`,
+    download: `${archivo.replace('.csv', '')}${sufijo}.csv` }, texto);
+  return el('div', { class: 'fila' }, el('span', { class: 'tenue' }, 'Exportar CSV:'),
+    enlace('inspecciones.csv', 'Inspecciones'), enlace('validaciones.csv', 'Validaciones'), enlace('iot.csv', 'Red IoT'));
+}
+
 export async function mostrar(raiz, [loteId]) {
   const campos = {
     lote_id: el('input', { name: 'lote_id', required: true, maxLength: 64, pattern: '[A-Za-z0-9._\\-]+', placeholder: 'L-001' }),
@@ -21,7 +29,7 @@ export async function mostrar(raiz, [loteId]) {
 
   raiz.append(
     el('section', { class: 'tarjeta' }, el('header', {}, el('h2', {}, 'Nuevo lote')), formulario, aviso),
-    el('section', { class: 'tarjeta' }, el('header', {}, el('h2', {}, 'Lotes registrados')), listado),
+    el('section', { class: 'tarjeta' }, el('header', {}, el('h2', {}, 'Lotes registrados'), enlacesCsv()), listado),
     historial,
   );
 
@@ -65,6 +73,7 @@ export async function mostrar(raiz, [loteId]) {
     historial.append(
       el('header', {}, el('h2', {}, `Historial del lote ${lote.lote_id}`),
         el('span', { class: 'tenue' }, `${lote.origen}${lote.operador ? ` · ${lote.operador}` : ''}`)),
+      enlacesCsv(`?lote_id=${encodeURIComponent(lote.lote_id)}`, `_${lote.lote_id}`),
       lote.inspecciones.length
         ? tabla([
           { titulo: 'Inicio', valor: (i) => fecha(i.inicio) },

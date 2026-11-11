@@ -114,8 +114,7 @@ export async function mostrar(raiz, [id]) {
       mostrarResultado(resultado, v);
       mensaje(aviso, 'Validación guardada.', 'bien');
     } catch (err) {
-      mensaje(aviso, err.status === 404 && err.message === 'Ruta no encontrada'
-        ? 'El cálculo de la validación se habilita en la Etapa 5.' : err.message, 'error');
+      mensaje(aviso, err.message, 'error');
     }
   });
 }
