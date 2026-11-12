@@ -76,6 +76,12 @@ async function main() {
 }
 
 main().catch((err) => {
-  console.error('No se pudo iniciar el servidor:', err.message);
+  if (err?.name === 'MongooseServerSelectionError') {
+    console.error('No se pudo conectar a MongoDB Atlas. Lo más común: la IP de este equipo no está autorizada.\n'
+      + 'En Atlas, abra Network Access > Add IP Address > Add Current IP Address, espere un minuto y vuelva a iniciar.\n'
+      + 'Si la red bloquea el puerto 27017 (algunas redes institucionales), use otra red.');
+  } else {
+    console.error('No se pudo iniciar el servidor:', err.message);
+  }
   process.exit(1);
 });

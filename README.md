@@ -95,7 +95,12 @@ python -m venv .venv
 .venv\Scripts\python.exe -m pip install -r requirements.txt
 ```
 
-La instalación ocupa unos 1,5 GB. Si el disco C: está lleno, cree el entorno en otra unidad, por ejemplo `python -m venv D:\venvs\sistema_iot_cacao`, y use esa ruta en lugar de `.venv` en todos los comandos.
+La instalación ocupa unos 1,5 GB. Si el disco C: está lleno, cree el entorno en otra unidad y enlácelo como `.venv`; así todos los comandos de este README siguen sirviendo:
+
+```powershell
+python -m venv D:\venvs\sistema_iot_cacao
+New-Item -ItemType Junction -Path .venv -Target D:\venvs\sistema_iot_cacao
+```
 
 Con una GPU NVIDIA: instale antes `torch==2.15.0` y `torchvision==0.29.2` con CUDA desde [pytorch.org](https://pytorch.org/get-started/locally/) y después `requirements.txt`. El nodo detecta CUDA solo (`dispositivo: auto`).
 
@@ -172,7 +177,11 @@ Copie `.env.example` como `.env` y complete los valores. **El archivo `.env` nun
 
 ## Uso
 
-Se necesitan **dos terminales abiertas al mismo tiempo**. Para detener cada programa, pulse Ctrl+C.
+**Forma rápida (Windows):** doble clic en **`iniciar_sistema.bat`**, en la carpeta del proyecto. Abre una ventana para el servidor y otra para el nodo, y después el tablero en el navegador. Para detener el sistema, cierre las dos ventanas. Si una ventana muestra un error, la tabla de [Solución de problemas](#solución-de-problemas) indica qué hacer.
+
+**Desde VS Code:** el proyecto indica a VS Code que use el Python de `.venv`, así que el botón ▶ sobre `edge/main.py` arranca el nodo. El servidor debe estar corriendo aparte.
+
+**Forma manual:** se necesitan **dos terminales abiertas al mismo tiempo**. Para detener cada programa, pulse Ctrl+C.
 
 **Terminal 1: servidor**
 
@@ -397,6 +406,8 @@ Si una credencial se filtra, cámbiela en EMQX Cloud o en Atlas y actualice el `
 | PowerShell muestra `>>` y no hace nada | Pegó varias líneas a la vez. Pulse Enter otra vez o escriba los comandos de uno en uno. |
 | `npm.ps1 no se puede cargar… la ejecución de scripts está deshabilitada` | Use `node server.js` o `npm.cmd ci`, o ejecute una vez `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned`. |
 | `http://localhost:3000` no abre (`ERR_CONNECTION_REFUSED`) | El servidor no está corriendo: arránquelo en una terminal y déjela abierta. |
+| El servidor dice `No se pudo conectar a MongoDB Atlas` | La IP de su equipo no está autorizada (cambia al cambiar de red). En Atlas: **Network Access → Add IP Address → Add Current IP Address**, espere un minuto y vuelva a iniciar. |
+| `ModuleNotFoundError: No module named 'dotenv'` (u otro módulo) | Se usó un Python sin las librerías. Use `.venv\Scripts\python.exe`, el botón ▶ de VS Code con el intérprete de `.venv`, o `iniciar_sistema.bat`. |
 | El servidor falla con `querySrv ECONNREFUSED` o `ETIMEOUT` | Su red no resuelve registros SRV: use la cadena `mongodb://` estándar (ver el comentario en `.env.example`). |
 | El nodo dice `El broker rechazó la conexión: Not authorized` | Revise `MQTT_HOST`, `EDGE_USER` y `EDGE_PASS` en `.env`. |
 | El tablero dice «Nodo desconectado» | El nodo no está corriendo, o se cerró sin despedirse (el broker publica la última voluntad). |
