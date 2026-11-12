@@ -250,7 +250,9 @@ print(len(t), t.mean(), t.std(ddof=1), np.percentile(t, 95), 1000 / t.mean())
 
 ### Tabla 3: evaluación en el conjunto de prueba (Google Colab)
 
-El conjunto de prueba es el dataset de Roboflow de [data.yaml](data.yaml), que no está en el repositorio. En un cuaderno de Colab con GPU:
+El conjunto de prueba es el dataset de Roboflow de [data.yaml](data.yaml), que no está en el repositorio.
+
+La forma más sencilla es el cuaderno listo [herramientas/evaluar_modelos_colab.ipynb](herramientas/evaluar_modelos_colab.ipynb). Ábralo en Google Colab con GPU y ejecute las celdas en orden. Pide subir los tres modelos y la clave de Roboflow (no la guarda) y al final descarga `evaluacion.zip`. Hace lo mismo que estos pasos manuales en un cuaderno de Colab con GPU:
 
 ```python
 !git clone https://github.com/updatedtechnology15-collab/Sistema_IoT_granos_cacao.git
